@@ -1,6 +1,6 @@
 {
   "author": "Felix Groll",
-  "description": "Basic serial communication for Unity.",
+  "description": "Basic serial communication for Unity",
   "displayName": "SimpleSerial",
   "keywords": [
     "unity"
