@@ -9,7 +9,7 @@ namespace ƒx.SimpleSerial
         // [ReadOnly]
         public bool verbose = false;
 
-        public EnhancedSerialPort mySerialPort;
+        public EnhancedSerialPort serialPort;
         public string port = "COM1";
         public int baudRate = 115200;
         public bool rts = true;
@@ -21,6 +21,7 @@ namespace ƒx.SimpleSerial
 
         public SerialConnection()
         {
+            this.port = System.IO.Ports.SerialPort.GetPortNames()[0];
             this.Init();
         }
 
@@ -28,7 +29,7 @@ namespace ƒx.SimpleSerial
         public void ToggleVerbosity()
         {
             this.verbose = !this.verbose;
-            if (mySerialPort != null) mySerialPort.verbose = this.verbose;
+            if (serialPort != null) serialPort.verbose = this.verbose;
         }
 
         [ContextMenu("Print Serial Port Names")]
@@ -42,33 +43,31 @@ namespace ƒx.SimpleSerial
         {
             if (verbose) Debug.Log("[SERIAL]: Opening " + port + " with " + baudRate + " baud");
             this.Init();
-            mySerialPort.Open();
+            serialPort.Open();
         }
 
         [ContextMenu("⏹️ Close Serial Connection")]
         public void Close()
         {
             if (verbose) Debug.Log("[SERIAL]: Closing " + port);
-            mySerialPort.Close();
+            serialPort.Close();
         }
 
         // [ContextMenu("Reset Serial Connection")]
         public void Init()
         {
-            mySerialPort = new EnhancedSerialPort(this.port);
-            mySerialPort.BaudRate = this.baudRate;
-            mySerialPort.Parity = Parity.None;
-            mySerialPort.StopBits = StopBits.One;
-            mySerialPort.DataBits = 8;
-            mySerialPort.Handshake = Handshake.None;
-            mySerialPort.RtsEnable = this.rts;
-            mySerialPort.DtrEnable = this.dtr;
-            mySerialPort.verbose = this.verbose;
+            serialPort = new EnhancedSerialPort(this.port);
+            serialPort.BaudRate = this.baudRate;
+            serialPort.Parity = Parity.None;
+            serialPort.StopBits = StopBits.One;
+            serialPort.DataBits = 8;
+            serialPort.Handshake = Handshake.None;
+            serialPort.RtsEnable = this.rts;
+            serialPort.DtrEnable = this.dtr;
+            serialPort.verbose = this.verbose;
 
-
-            mySerialPort.DataReceived -= new SerialDataReceivedEventHandler(DataReceivedHandler);
-            mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-
+            serialPort.DataReceived -= new SerialDataReceivedEventHandler(DataReceivedHandler);
+            serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
@@ -82,13 +81,12 @@ namespace ƒx.SimpleSerial
 
         public void Send(string message)
         {
-            mySerialPort.Write(message);
+            serialPort.Write(message);
         }
 
         public void SendLine(string message)
         {
-            mySerialPort.WriteLine(message);
+            serialPort.WriteLine(message);
         }
-
     }
 }
