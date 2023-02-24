@@ -1,8 +1,10 @@
 {
   "author": "Felix Groll",
-  "description": "basic implementation of serial communication for Unity ",
+  "description": "Basic serial communication for Unity.",
   "displayName": "SimpleSerial",
-  "keywords": [ "unity" ],
+  "keywords": [
+    "unity"
+  ],
   "license": "",
   "name": "io.github.jango-fx.simpleserial",
   "repository": "",
