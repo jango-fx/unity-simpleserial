@@ -11,8 +11,6 @@ public class SerialReceiver : MonoBehaviour
     {
         serialConnection.useReceiver = true;
         serialConnection.Open();
-        // serialConnection.callbackHandler -= OnReceive;
-        // serialConnection.callbackHandler += OnReceive;
     }
 
     void Update()
@@ -33,8 +31,4 @@ public class SerialReceiver : MonoBehaviour
         serialConnection.Close(); 
         serialConnection.useReceiver = false;
     }
-
-    // public void OnReceive(string data){
-    //         Debug.Log(data);
-    // }
 }
