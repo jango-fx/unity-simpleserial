@@ -8,6 +8,7 @@ namespace ƒx.SimpleSerial
     {
         // [ReadOnly]
         public bool verbose = false;
+        public bool useReceiver = false;
 
         public EnhancedSerialPort serialPort;
         public string port = "COM1";
@@ -44,6 +45,11 @@ namespace ƒx.SimpleSerial
             if (verbose) Debug.Log("[SERIAL]: Opening " + port + " with " + baudRate + " baud");
             this.Init();
             serialPort.Open();
+
+            if(!useReceiver){
+                serialPort.DataReceived -= new SerialDataReceivedEventHandler(DataReceivedHandler);
+                serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+            }
         }
 
         [ContextMenu("⏹️ Close Serial Connection")]
@@ -65,9 +71,6 @@ namespace ƒx.SimpleSerial
             serialPort.RtsEnable = this.rts;
             serialPort.DtrEnable = this.dtr;
             serialPort.verbose = this.verbose;
-
-            serialPort.DataReceived -= new SerialDataReceivedEventHandler(DataReceivedHandler);
-            serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
