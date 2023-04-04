@@ -8,7 +8,7 @@ namespace ƒx.SimpleSerial
     {
         // [ReadOnly]
         public bool verbose = false;
-        public bool useReceiver = false;
+        public bool useUpdate = false;
 
         public EnhancedSerialPort serialPort;
         public string port = "COM1";
@@ -46,7 +46,7 @@ namespace ƒx.SimpleSerial
             this.Init();
             serialPort.Open();
 
-            if(!useReceiver){
+            if(!useUpdate){
                 serialPort.DataReceived -= new SerialDataReceivedEventHandler(DataReceivedHandler);
                 serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
             }
@@ -91,5 +91,19 @@ namespace ƒx.SimpleSerial
         {
             serialPort.WriteLine(message);
         }
+
+        public void Update(){
+            if(callbackHandler != null) {
+                if(serialPort.IsOpen){
+                    if(serialPort.BytesToRead > 0){
+                        string msg = serialPort.ReadTo("\n");
+                            callbackHandler.Invoke(msg);
+                        serialPort.DiscardInBuffer();
+                    }
+                }
+            }
+        }
+
+
     }
 }

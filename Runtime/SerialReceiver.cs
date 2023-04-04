@@ -9,26 +9,27 @@ public class SerialReceiver : MonoBehaviour
 
     void Start()
     {
-        serialConnection.useReceiver = true;
+        serialConnection.useUpdate = true;
         serialConnection.Open();
     }
 
     void Update()
     {
-        if(serialConnection.callbackHandler != null) {
-            if(serialConnection.serialPort.IsOpen){
-                if(serialConnection.serialPort.BytesToRead > 0){
-                    string msg = serialConnection.serialPort.ReadTo("\n");
-                        serialConnection.callbackHandler.Invoke(msg);
-                    serialConnection.serialPort.DiscardInBuffer();
-                }
-            }
-        }
+        // if(serialConnection.callbackHandler != null) {
+        //     if(serialConnection.serialPort.IsOpen){
+        //         if(serialConnection.serialPort.BytesToRead > 0){
+        //             string msg = serialConnection.serialPort.ReadTo("\n");
+        //                 serialConnection.callbackHandler.Invoke(msg);
+        //             serialConnection.serialPort.DiscardInBuffer();
+        //         }
+        //     }
+        // }
+        serialConnection.Update();
     }
 
     void OnDestroy()
     {
         serialConnection.Close(); 
-        serialConnection.useReceiver = false;
+        serialConnection.useUpdate = false;
     }
 }
