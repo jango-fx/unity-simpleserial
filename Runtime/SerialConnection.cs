@@ -95,10 +95,12 @@ namespace ƒx.SimpleSerial
         public void Update(){
             if(callbackHandler != null) {
                 if(serialPort.IsOpen){
-                    if(serialPort.BytesToRead > 0){
+
+                    while (serialPort.BytesToRead > 0) {
                         string msg = serialPort.ReadTo("\n");
+                        if (msg != null) {
                             callbackHandler.Invoke(msg);
-                        serialPort.DiscardInBuffer();
+                        }
                     }
                 }
             }
