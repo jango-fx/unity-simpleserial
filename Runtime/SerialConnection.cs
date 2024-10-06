@@ -39,6 +39,12 @@ namespace ƒx.SimpleSerial
             Debug.Log("[SERIAL]: Ports\n" + string.Join("\n", System.IO.Ports.SerialPort.GetPortNames()));
         }
 
+        [ContextMenu("ℹ️ Print Port Status")]
+        public void Status()
+        {
+            Debug.Log("[SERIAL]: IsOpen = " + serialPort.IsOpen);
+        }
+
         [ContextMenu("▶️ Open Serial Connection")]
         public void Open()
         {
